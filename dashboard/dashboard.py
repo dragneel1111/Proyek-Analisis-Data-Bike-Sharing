@@ -10,6 +10,10 @@ sns.set_style('whitegrid')
 day_data = pd.read_csv('Bike-sharing-dataset/day.csv')
 day_data['dteday'] = pd.to_datetime(day_data['dteday'])
 
+# Menambahkan kolom bulan dan tahun dari kolom tanggal
+day_data['month'] = day_data['dteday'].dt.month
+day_data['year'] = day_data['dteday'].dt.year
+
 # Judul Dashboard
 st.title('Dashboard Analisis Penggunaan Sepeda')
 
@@ -39,18 +43,19 @@ axs[2].set(title='Distribusi Pengguna Total', xlabel='Jumlah Pengguna Total', yl
 
 st.pyplot(fig)
 
-# Penggunaan Sepeda Berdasarkan Musim
-st.write("## Penggunaan Sepeda Berdasarkan Musim")
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.boxplot(data=day_data, x='season', y='cnt', ax=ax)
-ax.set(title='Penggunaan Sepeda Berdasarkan Musim', xlabel='Musim', ylabel='Jumlah Pengguna')
+# Tren Penggunaan Sepeda Berdasarkan Musim
+st.write("## Tren Penggunaan Sepeda di Berbagai Musim Sepanjang Tahun")
+fig, ax = plt.subplots(figsize=(14, 7))
+sns.lineplot(data=day_data, x='month', y='cnt', hue='season', palette='viridis', ax=ax)
+ax.set(title='Tren Penggunaan Sepeda di Berbagai Musim Sepanjang Tahun', xlabel='Bulan', ylabel='Jumlah Pengguna')
+ax.legend(title='Musim', labels=['Musim Semi', 'Musim Panas', 'Musim Gugur', 'Musim Dingin'])
 st.pyplot(fig)
 
 # Penggunaan Sepeda pada Hari Kerja vs Hari Libur
-st.write("## Penggunaan Sepeda pada Hari Kerja vs Hari Libur")
+st.write("## Variasi Penggunaan Sepeda pada Hari Kerja vs Hari Libur")
 fig, ax = plt.subplots(figsize=(10, 6))
 sns.boxplot(data=day_data, x='workingday', y='cnt', ax=ax)
-ax.set(title='Penggunaan Sepeda pada Hari Kerja vs Hari Libur', xlabel='Hari Kerja (0: Tidak, 1: Ya)', ylabel='Jumlah Pengguna')
+ax.set(title='Variasi Penggunaan Sepeda pada Hari Kerja vs Hari Libur', xlabel='Hari Kerja (0: Tidak, 1: Ya)', ylabel='Jumlah Pengguna')
 st.pyplot(fig)
 
 # Penggunaan Sepeda Berdasarkan Kondisi Cuaca
