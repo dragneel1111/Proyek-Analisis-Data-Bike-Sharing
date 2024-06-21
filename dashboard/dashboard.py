@@ -3,6 +3,9 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Setel gaya visualisasi untuk seaborn
+sns.set_style('whitegrid')
+
 # Memuat dataset
 day_data = pd.read_csv('Bike-sharing-dataset/day.csv')
 day_data['dteday'] = pd.to_datetime(day_data['dteday'])
